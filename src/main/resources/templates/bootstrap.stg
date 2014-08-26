@@ -1,0 +1,28 @@
+group bootstrap;
+
+routeLoader(services)::=<<
+package io.str8.gen;
+
+import io.str8.turnpike.routing.*;
+
+public class _RouteLoader_ implements RouteLoader {
+
+    public void loadRoutes(){
+        <services:{svc | new RoutesForSvc<svc.svcId>().register();};separator="\n">
+    }
+}
+>>
+
+server()::=<<
+package io.str8.gen;
+
+
+public class Server {
+
+    public static void main(String[] args) throws Exception{
+        new io.str8.turnpike.server.Server(new _RouteLoader_()).run();
+    }
+
+}
+
+>>
